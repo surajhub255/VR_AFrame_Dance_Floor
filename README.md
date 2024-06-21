@@ -18,5 +18,5 @@ npm install
 npm start
 ```
 
-Then, load [`http://localhost:8080`](http://localhost:8080) in your browser.
+Then, load [`http://localhost:8080`](http://localhost:8080) in your browser and after that in the url give a string example: (http://localhost:8080/{string}) to see start button and enter the dance floor.
 
