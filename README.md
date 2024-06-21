@@ -2,7 +2,6 @@
 
 A WebVR dancing experience using [A-Frame](http://aframe.io) by [Mozilla VR](http://mozvr.com). 
 
-[Jump right in](https://aframe.io/a-saturday-night/) and [read the introductory blog post.](https://blog.mozvr.com/a-saturday-night/)
 
 <p align="center">
 <a href="https://aframe.io/a-saturday-night/"><img src="assets/readme/asaturdaynight.gif" alt="Recording of A-Saturday-Night gameplay" width="700" height="365"></a>
