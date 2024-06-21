@@ -3,7 +3,7 @@ var defaultDanceData = require('json!../../../assets/dance.json');
 AFRAME.registerComponent('instructions', {
   init: function () {
     this.startButtonEl = document.querySelector('.start-button');
-    this.startButtonEl.querySelector('span').innerHTML = 'Loading';
+    this.startButtonEl.querySelector('span').innerHTML = 'Connect Wallet';
     this.startButtonEl.querySelector('span').classList.add('loading');
     this.startReplaying = this.startReplaying.bind(this);
     this.loading = true;

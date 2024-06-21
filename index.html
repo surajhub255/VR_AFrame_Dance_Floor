@@ -55,7 +55,8 @@
           <a href="https://blog.mozvr.com/a-saturday-night/">Read more</a>
         </p>
       </div>
-      <button class="start-button" id="start-button"><span>Loading...</span></button>
+      <div id="walletAddress"></div>
+      <button class="start-button" id="start-button"><span>Connect Wallet</span></button>
       <div class="credits">
         <span class="title">Code: </span>
         <a href="https://twitter.com/dmarcos">dmarcos</a>, <a href="https://twitter.com/fernandojsg">fernandojsg</a>, <a
@@ -286,6 +287,24 @@
     //       $video.play()
     //     }
     //   })
+
+      // JavaScript code to extract the wallet address from the URL
+  function getWalletAddressFromUrl() {
+    var pathSegments = window.location.pathname.split('/');
+    var walletAddress = pathSegments.length > 1 ? pathSegments[1] : null;
+    return walletAddress;
+  }
+
+  // Insert the wallet address into the HTML element
+  window.onload = function() {
+    var walletAddress = getWalletAddressFromUrl();
+    var walletAddressElement = document.getElementById('walletAddress');
+    if (walletAddress) {
+      walletAddressElement.textContent = 'Welcome  ' + walletAddress;
+    } else {
+      walletAddressElement.textContent = '';
+    }
+  };
 
   </script>
 </body>
