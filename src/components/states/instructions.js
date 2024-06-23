@@ -30,7 +30,7 @@ AFRAME.registerComponent('instructions', {
   },
 
   downloadDance: function () {
-    var walletAddress = this.getWalletAddressFromPath();
+    var walletAddress = this.getWalletAddressFromQuery();
     var self = this;
 
     if (walletAddress) {
@@ -47,9 +47,9 @@ AFRAME.registerComponent('instructions', {
     }
   },
 
-  getWalletAddressFromPath: function () {
-    var pathSegments = window.location.pathname.split('/');
-    return pathSegments.length > 1 ? pathSegments[1] : null;
+  getWalletAddressFromQuery: function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('walletAddress');
   },
 
   showConnectWallet: function () {

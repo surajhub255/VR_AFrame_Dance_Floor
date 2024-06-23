@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fff78c">
-  <title>A-Saturday-Night</title>
+  <title>Chill Zone</title>
   <meta name="description" content="A WebVR dancing experience using A-Frame by Mozilla VR.">
   <link rel="stylesheet" href="css/main.css">
   <script src="https://cdn.rawgit.com/zenorocha/clipboard.js/v1.5.12/dist/clipboard.min.js"></script>
@@ -16,7 +16,9 @@
   <script src="vendor/CCapture.min.js"></script>
   <script src="https://unpkg.com/aframe-uploadcare-component/dist/aframe-uploadcare-component.min.js"></script>
   <script src="build/build.js"></script>
-<!-- <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script> -->
+  <script src="./src/assets/js/app.js" defer></script>
+  <script src="./src/assets/js/web3.min.js" defer></script>
+
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@mozillavr">
@@ -43,27 +45,15 @@
 <body>
   <div class="instructions-overlay" id="instructions">
     <div class="instructions" class="hide">
-      <img src="assets/logo.png" alt="A-Saturday-Night logo">
+      <img src="assets/Chill.jpeg" alt="A-Saturday-Night logo">
       <div>
-        <h2>Show everybody your moves!</h2>
-        <p>This dance was captured using a VR headset and controllers. <br>
-          If you have <b>HTC Vive</b> or <b>Oculus Rift</b> you will able to record and upload <br>your dance to
-          <b>share it with everybody!</b> (<a href="https://www.mozilla.org/privacy/">privacy</a> and <a
-            href="https://www.mozilla.org/privacy/websites/#cookies">cookies</a> policy)</a>
-        </p>
-        <p>
+        <p class="para">The Chill Zone is more than just a physical space—it's a state of mind. It's about making time for yourself and prioritizing relaxation in your daily routine. So, take a deep breath, settle in, and let the Chill Zone become your sanctuary for peace and tranquility.</p>
+        <!-- <p>
           <a href="https://blog.mozvr.com/a-saturday-night/">Read more</a>
-        </p>
+        </p> -->
       </div>
       <div id="walletAddress"></div>
       <button class="start-button" id="start-button"><span>Connect Wallet</span></button>
-      <div class="credits">
-        <span class="title">Code: </span>
-        <a href="https://twitter.com/dmarcos">dmarcos</a>, <a href="https://twitter.com/fernandojsg">fernandojsg</a>, <a
-          href="https://twitter.com/feiss">feiss</a>, <a href="https://twitter.com/andgokevin">ngokevin</a> <span
-          class="title">Art: </span><a href="https://twitter.com/feiss">feiss</a> <span class="title">Music: </span><a
-          href="https://soundcloud.com/josss-1">josss</a>
-      </div>
     </div>
   </div>
 
@@ -76,12 +66,10 @@
   </div>
 
   <div class="watermark">
-    <a href="https://aframe.io/a-saturday-night/"><img src="assets/logo-small.png" alt="A-Saturday-Night logo"></a>
+    <a href="https://aframe.io/a-saturday-night/"><img src="assets/Chill.jpeg" alt="A-Saturday-Night logo"></a>
   </div>
 
   <a-assets timeout="8000">
-    <!-- <video id="webcam" playsinline></video> -->
-
     <img src="assets/room/set.jpg">
     <img src="assets/room/tv.png">
     <img src="assets/avatar1/avatar1.jpg">
@@ -122,7 +110,7 @@
     <a-asset-item id="avatar4-hand-right-obj" src="assets/avatar4/avatar4-hand-right.gltf"></a-asset-item>
     <a-asset-item id="avatar4-hand-left-obj" src="assets/avatar4/avatar4-hand-left.gltf"></a-asset-item>
   </a-assets>
-  
+
 
   <a-scene uploadcare="publicKey: 85ed3c25d99e387316bd" game-state avatar-recorder="spectatorPlay: true; spectatorPosition: 0 0 0; localStorage: false; saveFile: false" auto-enter-vr="enabled: false">
    
@@ -251,6 +239,32 @@
     </div>
   </div>
   <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const walletAddress = urlParams.get('walletAddress');
+
+  if (walletAddress) {
+    console.log('Wallet address already present:', walletAddress);
+  } else if (typeof window.ethereum !== 'undefined' || (typeof window.web3 !== 'undefined')) {
+    const web3 = new Web3(window.ethereum);
+    try {
+      await window.ethereum.enable();
+      const accounts = await web3.eth.getAccounts();
+      const walletAddress = accounts[0];
+      if (walletAddress) {
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('walletAddress', walletAddress);
+        window.history.replaceState({}, '', currentUrl);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('User denied account access or there was an error', error);
+    }
+  } else {
+    console.warn('No web3 provider detected. Please install MetaMask!');
+  }
+});
+
     (function (i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
         (i[r].q = i[r].q || []).push(arguments)
@@ -279,23 +293,12 @@
     ga('send', 'event', 'supports.WEBVRPLUS', 'WEBVRPLUS' in window);
     ga('managers.send', 'event', 'supports.WEBVRPLUS', 'WEBVRPLUS' in window);
 
-    // navigator.mediaDevices.getUserMedia({ audio: false, video: true })
-    //   .then(stream => {
-    //     let $video = document.querySelector('video')
-    //     $video.srcObject = stream
-    //     $video.onloadedmetadata = () => {
-    //       $video.play()
-    //     }
-    //   })
-
-      // JavaScript code to extract the wallet address from the URL
+    
   function getWalletAddressFromUrl() {
-    var pathSegments = window.location.pathname.split('/');
-    var walletAddress = pathSegments.length > 1 ? pathSegments[1] : null;
-    return walletAddress;
+    var urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('walletAddress');
   }
 
-  // Insert the wallet address into the HTML element
   window.onload = function() {
     var walletAddress = getWalletAddressFromUrl();
     var walletAddressElement = document.getElementById('walletAddress');

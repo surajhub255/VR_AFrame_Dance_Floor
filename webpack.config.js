@@ -16,14 +16,13 @@ module.exports = {
   plugins: PLUGINS,
   devServer: {
     disableHostCheck: true,
-    historyApiFallback: true,
+    historyApiFallback: {
+      rewrites: [
+        // Redirect URLs with a walletAddress query parameter to index.html
+        { from: /\/\?walletAddress=0x[0-9a-fA-F]{40}$/, to: '/index.html' }
+      ]
+    },
     before: function(app, server) {
-      app.use(history({
-        rewrites: [
-          // Redirect URLs with a wallet address pattern to index.html
-          { from: /^\/[0-9a-fA-F]{40}$/, to: '/index.html' }
-        ]
-      }));
       app.use(express.static(__dirname));
     }
   }
